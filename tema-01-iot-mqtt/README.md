@@ -115,9 +115,9 @@ Exemple simple de diagrame, desenate în [draw.io](https://app.diagrams.net). Su
 
 | Tab | Imagine | Ce arată |
 |-----|---------|----------|
-| Diagramă de timp | [`diagrama-de-timp.png`](exemple/03-diagrame/diagrama-de-timp.png) | notația din curs: eliberări, joburi, timpul petrecut în Ready, preempțiuni, termene-limită absolute, un eveniment sporadic respins, un task aperiodic |
-| Diagramă de componente | [`diagrama-de-componente.png`](exemple/03-diagrame/diagrama-de-componente.png) | componente UML și interfețele oferite / folosite între ele |
-| Diagramă de secvență | [`diagrama-de-secventa.png`](exemple/03-diagrame/diagrama-de-secventa.png) | participanți, mesaje sincrone, răspunsuri și un mesaj asincron |
+| Diagramă de timp | [`diagrame-rezolvare.drawio/diagrama-de-timp.png`](exemple/03-diagrame/diagrama-de-timp.png) | notația din curs: eliberări, joburi, timpul petrecut în Ready, preempțiuni, termene-limită absolute, un eveniment sporadic respins, un task aperiodic |
+| Diagramă de componente | [`diagrame-rezolvare.drawio/diagrama-de-componente.png`](exemple/03-diagrame/diagrama-de-componente.png) | componente UML și interfețele oferite / folosite între ele |
+| Diagramă de secvență | [`diagrame-rezolvare.drawio/diagrama-de-secventa.png`](exemple/03-diagrame/diagrama-de-secventa.png) | participanți, mesaje sincrone, răspunsuri și un mesaj asincron |
 
 Diagramele de componente și de secvență sunt generice: ilustrează doar notația, nu soluția temei.
 

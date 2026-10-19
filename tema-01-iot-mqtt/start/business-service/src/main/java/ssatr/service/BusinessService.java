@@ -11,6 +11,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Serviciul:
  *  - primește telemetria, alarmele și confirmările de la toate device-urile;
  *  - le stochează în fișiere CSV (CsvStorage);
+ *
+ *
  *  - păstrează ultima stare a fiecărui device (Dashboard);
  *  - citește comenzi de la tastatură și le trimite device-urilor (CommandConsole).
  */
