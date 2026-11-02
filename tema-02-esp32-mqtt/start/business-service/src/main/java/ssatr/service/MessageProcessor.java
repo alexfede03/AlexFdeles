@@ -2,15 +2,6 @@ package ssatr.service;
 
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Preia mesajele de un anumit tip ("telemetry", "alarm" sau "status") din coada
- * inbox, le salvează și actualizează dashboard-ul.
- *
- * Formatul mesajelor (câmpuri separate prin ";"):
- *   telemetry:  deviceId;timestamp;temperatura
- *   alarm:      deviceId;timestamp;temperatura;prag
- *   status:     deviceId;timestamp;text
- */
 public class MessageProcessor implements Runnable {
 
     private final String kind;
@@ -27,12 +18,46 @@ public class MessageProcessor implements Runnable {
 
     @Override
     public void run() {
-        // TODO 4: într-o buclă:
-        //   - preluați un mesaj: inbox.take()
-        //   - salvați mesajul în fișierul CSV: storage.append(kind, mesaj)
-        //     (CsvStorage este gata implementată)
-        //   - actualizați dashboard-ul, în funcție de kind
-        //   - alarmele și confirmările se afișează imediat în consolă
-        //   - un mesaj greșit (format invalid) nu trebuie să oprească thread-ul
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                String message = inbox.take();
+                storage.append(kind, message);
+
+                String[] parts = message.split(";");
+                if (parts.length < 3) {
+                    continue; // mesaj invalid, ignorăm fără să oprim thread-ul
+                }
+
+                String deviceId = parts[0];
+                long timestamp = Long.parseLong(parts[1]);
+
+                switch (kind) {
+                    case "telemetry":
+                        double temp = Double.parseDouble(parts[2]);
+                        dashboard.recordTelemetry(deviceId, temp, timestamp);
+                        break;
+
+                    case "alarm":
+                        double alarmTemp = Double.parseDouble(parts[2]);
+                        double threshold = Double.parseDouble(parts[3]);
+                        dashboard.recordAlarm(deviceId, alarmTemp, timestamp);
+                        System.out.printf("\n[ALARMĂ!] %s: T=%.2f depășește pragul=%.2f%n> ",
+                                deviceId, alarmTemp, threshold);
+                        break;
+
+                    case "status":
+                        String text = parts[2];
+                        dashboard.recordStatus(deviceId, timestamp);
+                        System.out.printf("\n[STATUS] %s: %s%n> ", deviceId, text);
+                        break;
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            } catch (Exception e) {
+                // Format invalid sau eroare de parsare: continuă fără să oprească thread-ul
+                System.out.println("\n[Eroare procesare " + kind + "]: " + e.getMessage() + "\n> ");
+            }
+        }
     }
 }
